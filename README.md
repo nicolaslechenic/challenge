@@ -69,8 +69,8 @@ I am web developer for almost 3 years, which means that I'm starting to know wha
 
 To know more about me, I'll let you discover the links below:
 
-[My Linkedin](https://www.linkedin.com/in/nicolas-le-chenic-7808a368/)
-[My blog posts (Synbioz)](https://www.synbioz.com/blog/authors/nlechenic)
-[Kawabook (side project)](https://projet.kawabook.com/)
+- [My Linkedin](https://www.linkedin.com/in/nicolas-le-chenic-7808a368/)
+- [My blog posts (Synbioz)](https://www.synbioz.com/blog/authors/nlechenic)
+- [Kawabook (side project)](https://projet.kawabook.com/)
 
 
