@@ -22,7 +22,6 @@ module Drivy
       end
     end
 
-    # @param [Hash] rental informations
     # @return [Integer] number of days included in the range
     def count_days
       start_date  = Date.parse(self.start_date)
