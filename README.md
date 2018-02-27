@@ -6,10 +6,13 @@
 <br/>
 
 <div align="center">
+  <img src="https://img.shields.io/badge/status-work%20in%20progress-yellow.svg?longCache=true&style=flat" alt="Rubocop" />
+
   <a href="https://github.com/bbatsov/ruby-style-guide">
     <img src="https://img.shields.io/badge/guideline-rubocop-blue.svg?longCache=true&style=flat" alt="Rubocop" />
   </a>
 </div>
+
 
 ## Table of Contents
 
@@ -20,7 +23,7 @@
 
 ### Disclaimer
 
-Just a small disclaimer before continuing. This repo contains the backend challenges (level 1 to 6) and a crazy cars bonus level (levelbonus).
+Just a small disclaimer before continuing. This repo contains the backend challenges *(level 1 to 6)* and a crazy cars bonus level *(levelbonus)*.
 
 This README document whatever steps are necessary to get the
 application up and running for both of them.
@@ -28,6 +31,15 @@ application up and running for both of them.
 By the way, I moved the backend `README.md` to `INSTRUCTIONS.md`.
 
 ### Backend challenge
+
+Status:
+
+- [x] Level 1
+- [x] Level 2
+- [x] Level 3
+- [x] Level 4
+- [ ] Level 5
+- [ ] Level 6
 
 Revisions:
 
@@ -58,6 +70,10 @@ rspec spec
 
 ### Crazy cars bonus
 
+Status:
+
+- [ ] Level bonus (waiting for refactoring) 
+
 <!--- TODO --->
 
 I heard about a free drink ?! So if it's true, I'd be happy to meet you in  March ?!
@@ -68,8 +84,8 @@ I am web developer for almost 3 years, which means that I'm starting to know wha
 
 To know more about me, I'll let you discover the links below:
 
-- [My Linkedin](https://www.linkedin.com/in/nicolas-le-chenic-7808a368/)
-- [My blog posts (Synbioz)](https://www.synbioz.com/blog/authors/nlechenic)
+- [Linkedin](https://www.linkedin.com/in/nicolas-le-chenic-7808a368/)
+- [Blog posts (Synbioz)](https://www.synbioz.com/blog/authors/nlechenic)
 - [Kawabook (side project)](https://projet.kawabook.com/)
 
 
