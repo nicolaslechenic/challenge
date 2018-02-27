@@ -40,6 +40,7 @@ Status:
 - [x] Level 4
 - [ ] Level 5
 - [ ] Level 6
+- [ ] Improvement: refacto / tests / exceptions / edge cases
 
 Revisions:
 
@@ -59,7 +60,7 @@ This will create a `output.json` file with the expected output.
 
 #### Run the test suite
 
-Each level contains test files so if you want to check it it's easy: 
+Each level contains test files so if you want to check, it's easy: 
 
 ```shell 
 rspec spec
