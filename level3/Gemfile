@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'pry'
+gem 'yard'
+
+group :test do
+  gem 'rspec'
+  gem 'rubocop', '~> 0.52.1', require: false
+  gem 'simplecov'
+end
