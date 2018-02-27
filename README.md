@@ -1,12 +1,11 @@
 <h1 align="center">DRIVY CHALLENGE<br/>by Nicolas Le Chenic</h1>
 <div align="center">
-  :red_car::blue_car::red_car::red_car::blue_car::red_car::red_car::red_car:<br/>:red_car::blue_car::blue_car::red_car::red_car::blue_car::red_car::blue_car:<br/>:red_car::blue_car::blue_car::red_car::blue_car::blue_car::red_car::red_car:<br/>:red_car::blue_car::blue_car::red_car::blue_car::blue_car::red_car::red_car:<br/>:red_car::blue_car::blue_car::red_car::blue_car::blue_car::blue_car::blue_car:<br/>:red_car::red_car::blue_car::red_car::red_car::red_car::red_car::red_car:<br/>:red_car::blue_car::red_car::red_car::red_car::blue_car::red_car::red_car:<br/>:red_car::blue_car::blue_car::blue_car::red_car::red_car::blue_car::red_car:<br/>:red_car::blue_car::blue_car::red_car::blue_car::red_car::red_car::blue_car:<br/>:red_car::blue_car::blue_car::blue_car::red_car::blue_car::blue_car::red_car:<br/>:red_car::blue_car::blue_car::blue_car::blue_car::red_car::red_car::blue_car:<br/>:red_car::red_car::blue_car::red_car::red_car::red_car::red_car::red_car:<br/>:red_car::red_car::blue_car::red_car::red_car::red_car::red_car::blue_car:
+  :red_car::car::red_car::red_car::car::red_car::red_car::red_car:<br/>:red_car::car::car::red_car::red_car::car::red_car::car:<br/>:red_car::car::car::red_car::car::car::red_car::red_car:<br/>:red_car::car::car::red_car::car::car::red_car::red_car:<br/>:red_car::car::car::red_car::car::car::car::car:<br/>:red_car::red_car::car::red_car::red_car::red_car::red_car::red_car:<br/>:red_car::car::red_car::red_car::red_car::car::red_car::red_car:<br/>:red_car::car::car::car::red_car::red_car::car::red_car:<br/>:red_car::car::car::red_car::car::red_car::red_car::car:<br/>:red_car::car::car::car::red_car::car::car::red_car:<br/>:red_car::car::car::car::car::red_car::red_car::car:<br/>:red_car::red_car::car::red_car::red_car::red_car::red_car::red_car:<br/>:red_car::red_car::car::red_car::red_car::red_car::red_car::car:
 </div>
 
 <br/>
 
 <div align="center">
-  <!-- Standard -->
   <a href="https://github.com/bbatsov/ruby-style-guide">
     <img src="https://img.shields.io/badge/guideline-rubocop-blue.svg?longCache=true&style=flat" alt="Rubocop" />
   </a>
