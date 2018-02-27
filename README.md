@@ -67,7 +67,7 @@ I heard about a free drink ?! So if it's true, I'd be happy to meet you in  Marc
 
 I am web developer for almost 3 years, which means that I'm starting to know what I'm doing but still have a lot to learn !
 
-...
+To know more about me, I'll let you discover the links below:
 
 [My Linkedin](https://www.linkedin.com/in/nicolas-le-chenic-7808a368/)
 [My blog posts (Synbioz)](https://www.synbioz.com/blog/authors/nlechenic)
