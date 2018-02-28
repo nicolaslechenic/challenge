@@ -1,5 +1,6 @@
-require 'json'
+require 'colorize'
 require 'date'
+require 'json'
 require './lib/application'
 require './lib/action'
 require './lib/fee'

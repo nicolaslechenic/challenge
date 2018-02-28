@@ -14,15 +14,16 @@ module Drivy
 
     # @return [Array<Object>] with all existing cars
     def self.all
-      json_datas['cars'].map do |car|
-        new(car)
-      end
+      json_datas['cars'].map { |car| new(car) }
     end
 
     # @param [Integer] car id
     # @return [Object] with specified car
     def self.find(id)
-      all.select { |car| car.id == id }[0]
+      cars = all.select { |car| car.id == id }
+      raise IndexError, "There is no car with the id: #{id}" if cars.empty?
+
+      cars[0]
     end
   end
 end
