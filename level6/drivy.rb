@@ -1,7 +1,5 @@
 require 'json'
 require 'date'
-require 'pry'
-require './lib/core_ext'
 require './lib/application'
 require './lib/action'
 require './lib/fee'

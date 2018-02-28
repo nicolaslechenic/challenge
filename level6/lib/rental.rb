@@ -18,7 +18,8 @@ module Drivy
     # Update the value of instance variable attributes 
     # with the content of modifications_hash
     def update(modifications_hash)
-      modifications_hash.except('id', 'rental_id').each do |key, value|
+      modifications_hash.each do |key, value|
+        next if %w[id rental_id].include? key
         set_variable(key, value)
       end
 
