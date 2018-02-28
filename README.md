@@ -38,8 +38,8 @@ Status:
 - [x] Level 2
 - [x] Level 3
 - [x] Level 4
-- [ ] Level 5
-- [ ] Level 6
+- [x] Level 5
+- [x] Level 6
 - [ ] Improvement: refacto / tests / exceptions / edge cases
 
 Revisions:
