@@ -12,7 +12,11 @@ RSpec.describe Drivy::Car do
     end
 
     context 'invalid id' do
-      # TODO
+      subject { described_class.find(2) }
+
+      it 'return error when car id is invalid' do
+        expect { subject }.to raise_error(IndexError)
+      end
     end
   end
 end

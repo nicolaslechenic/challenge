@@ -29,7 +29,13 @@ module Drivy
 
     # @return [Integer] number of days included in the range
     def number_of_days
-      (end_date - start_date).to_i + 1
+      range = (end_date - start_date).to_i
+
+      if range < 0
+        raise RangeError, 'Invalid end date. End date is smaller than strat date' 
+      end
+
+      range + 1
     end
 
     # @return [Array<Object>] with all rentals

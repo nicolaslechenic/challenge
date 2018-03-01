@@ -16,11 +16,14 @@ module Drivy
 
     # @return [Array<Hash>] formatted json actions
     def self.get_list(new_amounts, previous_amounts)
+      new_commissions = new_amounts[:commissions]
+      previous_commissions = previous_amounts[:commissions]
+
       driver_amount = -(new_amounts[:driver_owe] - previous_amounts[:driver_owe])
       owner_amount  = new_amounts[:owner_part] - previous_amounts[:owner_part]
-      insurance_amount = new_amounts[:commissions][:insurance_fee] - previous_amounts[:commissions][:insurance_fee]
-      assistance_amount = new_amounts[:commissions][:assistance_fee] - previous_amounts[:commissions][:assistance_fee]
-      drivy_amount = new_amounts[:commissions][:drivy_fee_with_reduction] - previous_amounts[:commissions][:drivy_fee_with_reduction]
+      insurance_amount = new_commissions[:insurance_fee] - previous_commissions[:insurance_fee]
+      assistance_amount = new_commissions[:assistance_fee] - previous_commissions[:assistance_fee]
+      drivy_amount = new_commissions[:drivy_fee_with_reduction] - previous_commissions[:drivy_fee_with_reduction]
 
       [
         to_json('driver', driver_amount),
