@@ -11,7 +11,7 @@ module Drivy
         amount: amount.abs
       }
     rescue ArgumentError => exception
-      puts "#{exception.class.name}: #{e.message}"
+      print "#{exception.class.name}: #{exception.message}"
     end
 
     # @return [Array<Hash>] formatted json actions

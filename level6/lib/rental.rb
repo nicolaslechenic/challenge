@@ -32,7 +32,7 @@ module Drivy
       range = (end_date - start_date).to_i
 
       if range < 0
-        raise RangeError, 'Invalid end date. End date is smaller than strat date' 
+        raise RangeError, 'Invalid end date. End date is smaller than strat date'
       end
 
       range + 1

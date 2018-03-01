@@ -1,17 +1,16 @@
 require './lib/rental'
 
 RSpec.describe Drivy::Rental do
-  let(:rental) { described_class.new(
-      {
-        'id' => 1,
-        'car_id' => 1,
-        'start_date' => '2015-12-8',
-        'end_date' => '2015-12-8',
-        'distance' => 100,
-        'deductible_reduction' => true
-      }
+  let(:rental) do 
+    described_class.new(
+      'id' => 1,
+      'car_id' => 1,
+      'start_date' => '2015-12-8',
+      'end_date' => '2015-12-8',
+      'distance' => 100,
+      'deductible_reduction' => true
     )
-  }
+  end
 
   context 'invalid end date' do 
     it 'return RangeError exception' do
