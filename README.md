@@ -6,7 +6,7 @@
 <br/>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/status-work%20in%20progress-yellow.svg?longCache=true&style=flat" alt="Rubocop" />
+  <img src="https://img.shields.io/badge/status-finished-green.svg?longCache=true&style=flat" alt="Progress" />
 
   <a href="https://github.com/bbatsov/ruby-style-guide">
     <img src="https://img.shields.io/badge/guideline-rubocop-blue.svg?longCache=true&style=flat" alt="Rubocop" />
@@ -40,7 +40,7 @@ Status:
 - [x] Level 4
 - [x] Level 5
 - [x] Level 6
-- [x] Improvement: refacto / tests / exceptions / edge cases
+- [x] Improvements / refacto...
 
 Revisions:
 
@@ -73,11 +73,9 @@ rspec spec
 
 Status:
 
-- [ ] Level bonus (waiting for refactoring) 
+- [x] Level bonus
 
-<!--- TODO --->
-
-I heard about a free drink ?! So if it's true, I'd be happy to meet you in  March ?!
+To know more I let you open the bonus level !
 
 ### About me
 

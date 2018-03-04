@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rmagick (2.16.0)
+    thor (0.20.0)
+    yard (0.9.12)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rmagick
+  thor
+  yard
+
+BUNDLED WITH
+   1.16.1
