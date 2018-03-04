@@ -33,7 +33,9 @@ Now you can see the message with the display option:
 ruby crazy_cars.rb -d
 ```
 
-*I tried to do something that can display the message in less than a minute and my focus was really not about reusable or beautiful code*
+*I tried to do something that can display the message in less than a minute :rocket: and my focus was really not about reusable or beautiful code*
+
+:warning: *Do not drive too fast !*
 
 
 By the way, I heard about a free drink ?! If it's true, I'd be happy to meet you in March ?!

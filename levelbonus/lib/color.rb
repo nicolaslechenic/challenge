@@ -7,7 +7,7 @@ module CrazyCars
 
     # Faster than image.each_pixel
     #
-    # Get color of each  image pixel and break if
+    # Get color of each image pixel and break if
     # color is known as 0 or 1 (PINK or bit_one)
     #
     # @param [Object] rmagick image
