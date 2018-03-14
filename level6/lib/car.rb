@@ -20,7 +20,7 @@ module Drivy
     # @return [Object] with specified car
     def self.find(car_id)
       car_found = all.find { |car| car.id == car_id }
-      raise IndexError, "There is no car with the id: #{car_id}" if car_found.nil?
+      raise IndexError, format(ERRORS['car']['invalid_id'], car_id: car_id) if car_found.nil?
 
       car_found
     end

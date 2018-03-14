@@ -28,9 +28,7 @@ module Drivy
     end
 
     def number_of_days
-      if end_date < start_date
-        raise RangeError, 'Invalid end date. End date is smaller than strat date'
-      end
+      raise RangeError, ERRORS['rental']['date_range'] if end_date < start_date
 
       (end_date - start_date).to_i + 1
     end
@@ -120,7 +118,7 @@ module Drivy
     # @return [Object] with specified rental
     def self.find(rental_id)
       rental_found = all.find { |rental| rental.id == rental_id }
-      raise IndexError, "There is no rental with the id: #{rental_id}" if rental_found.nil?
+      raise IndexError, format(ERRORS['rental']['invalid_id'], rental_id: rental_id) if rental_found.nil?
 
       rental_found
     end
@@ -129,22 +127,16 @@ module Drivy
     def self.output_modifications
       json_datas['rental_modifications'].map do |rental|
         ref_rental = find(rental['rental_id'])
-
         saved_rental = ref_rental.dup
-        saved_amounts = saved_rental.amounts
-
-        new_rental = ref_rental.update(rental)
-        new_amounts = new_rental.amounts
+        new_rental = ref_rental.update(rental).dup
 
         {
           id: rental['id'],
           rental_id: ref_rental.id,
-          actions: Action.get_list(new_amounts, saved_amounts)
+          actions: Action.get_list(new_rental.amounts, saved_rental.amounts)
         }
       end
     end
-
-
 
     private
 

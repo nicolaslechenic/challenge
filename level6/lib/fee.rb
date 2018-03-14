@@ -1,6 +1,5 @@
 module Drivy
   class Fee < Application
-    
     def self.commission(rental, total_fees)
       insurance_fee   = insurance_fee(total_fees)
       assistance_fee  = assistance_fee(rental)

@@ -2,7 +2,7 @@ module Drivy
   class Action < Application
     # @return [Hash] formatted json actions
     def self.to_json(who, amount)
-      raise ArgumentError, 'Rental action without amount value' if amount.zero?
+      raise ArgumentError, ERRORS['action']['zero_value'] if amount.zero?
       operation_type = amount > 0 ? 'credit' : 'debit'
 
       {
