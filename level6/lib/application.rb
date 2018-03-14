@@ -1,7 +1,7 @@
 module Drivy
   class Application
     def self.json_datas
-      JSON.parse(datas)
+      @datas ||= JSON.parse(datas)
     end
 
     def self.datas

@@ -8,22 +8,21 @@ module Drivy
     #   * :price_per_km [Integer]
     def initialize(car_hash)
       car_hash.each do |key, value|
+        next unless WHITELIST_CAR_ATTR.include?(key)
         instance_variable_set("@#{key}", value)
       end
     end
 
-    # @return [Array<Object>] with all existing cars
     def self.all
       json_datas['cars'].map { |car| new(car) }
     end
 
-    # @param [Integer] car id
     # @return [Object] with specified car
-    def self.find(id)
-      cars = all.select { |car| car.id == id }
-      raise IndexError, "There is no car with the id: #{id}" if cars.empty?
+    def self.find(car_id)
+      car_found = all.find { |car| car.id == car_id }
+      raise IndexError, "There is no car with the id: #{car_id}" if car_found.nil?
 
-      cars[0]
+      car_found
     end
   end
 end

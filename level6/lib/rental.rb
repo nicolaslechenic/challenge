@@ -1,11 +1,11 @@
 module Drivy
   class Rental < Application
-    attr_accessor :id, :car_id, :start_date, :end_date, :distance, :deductible_reduction
+    attr_accessor :id, :car, :start_date, :end_date, :distance, :deductible_reduction
 
     # List of attributes
     #
     #   * :id [Integer]
-    #   * :car_id [Integer]
+    #   * :car [Object]
     #   * :start_date [Date]
     #   * :end_date [Date]
     #   * :distance [Integer]
@@ -27,48 +27,12 @@ module Drivy
       self
     end
 
-    # @return [Integer] number of days included in the range
     def number_of_days
-      range = (end_date - start_date).to_i
-
-      if range < 0
+      if end_date < start_date
         raise RangeError, 'Invalid end date. End date is smaller than strat date'
       end
 
-      range + 1
-    end
-
-    # @return [Array<Object>] with all rentals
-    def self.all
-      json_datas['rentals'].map { |rental| new(rental) }
-    end
-
-    # @param [Integer] rental id
-    # @return [Object] with specified rental
-    def self.find(id)
-      rentals = all.select { |rental| rental.id == id }
-      raise IndexError, "There is no rental with the id: #{id}" if rentals.empty?
-
-      rentals[0]
-    end
-
-    # @return [Array<Hash>] with the desired output values
-    def self.output_modifications
-      json_datas['rental_modifications'].map.with_index do |rental, index|
-        ref_rental = find(rental['rental_id'])
-
-        saved_rental = ref_rental.dup
-        saved_amounts = amounts(saved_rental)
-
-        new_rental = ref_rental.update(rental)
-        new_amounts = amounts(new_rental)
-
-        {
-          id: index + 1,
-          rental_id: ref_rental.id,
-          actions: Action.get_list(new_amounts, saved_amounts)
-        }
-      end
+      (end_date - start_date).to_i + 1
     end
 
     # All amounts for specified rental
@@ -78,24 +42,19 @@ module Drivy
     #   * :driver_owe [Integer] total price paid by the driver
     #   * :owner_part [Integer] 70% of the price goes to the car owner
     #   * :commissions [Hash] with insurance, assistance and drivy fees
-    def self.amounts(rental)
-      before_reduction = total_amount_before_reduction(rental)
-      total_fees = (before_reduction * 0.3).to_i
-      driver_owe = total_amount_with_reduction(rental, before_reduction)
+    def amounts
+      total_fees = (total_amount_without_option * FEES_ON_PRICE_PER_ONE).to_i
 
       {
-        driver_owe: driver_owe,
-        owner_part: before_reduction - total_fees,
-        commissions: Fee.commission(rental, total_fees)
+        driver_owe: total_amount_with_option,
+        owner_part: total_amount_without_option - total_fees,
+        commissions: Fee.commission(self, total_fees)
       }
     end
-    private_class_method :amounts
 
-    # Price for specified distance
-    def self.distance_amount(rental, price_per_km)
-      rental.distance * price_per_km
+    def distance_amount
+      distance * car.price_per_km
     end
-    private_class_method :distance_amount
 
     # Return price depends on number of days
     #
@@ -106,12 +65,28 @@ module Drivy
     # @param [Object] rental informations
     # @param [Integer] price per day
     # @return [Float] price for duration
-    def self.amount_after_decreases(rental, price_per_day)
-      number_of_days = rental.number_of_days
-
-      each_day_amounts(number_of_days, price_per_day).inject(:+)
+    def duration_amount
+      self.class.each_day_amounts(number_of_days, car.price_per_day).inject(:+)
     end
-    private_class_method :amount_after_decreases
+
+    # @param [Object] rental
+    # @param [Integer] price before applying deductible_reduction_amount
+    # @return [Integer] with rental price after applying deductible_reduction_amount
+    def total_amount_with_option
+      deductible_reduction_amount = Fee.deductible_reduction_amount(self)
+
+      total_amount_without_option + deductible_reduction_amount
+    end
+
+    # @return [Integer] with rental price before applying deductible_reduction_amount
+    def total_amount_without_option
+      duration_amount + distance_amount
+    end
+
+    # @return [Array<Object>] with all rentals
+    def self.all
+      json_datas['rentals'].map { |rental| new(rental) }
+    end
 
     # Different price for each days
     #
@@ -135,7 +110,33 @@ module Drivy
         get_discount_amount(price, factor)
       end
     end
-    private_class_method :each_day_amounts
+
+    # @return [Object] with specified rental
+    def self.find(rental_id)
+      rental_found = all.find { |rental| rental.id == rental_id }
+      raise IndexError, "There is no rental with the id: #{rental_id}" if rental_found.nil?
+
+      rental_found
+    end
+
+    # @return [Array<Hash>] with the desired output values
+    def self.output_modifications
+      json_datas['rental_modifications'].map do |rental|
+        ref_rental = find(rental['rental_id'])
+
+        saved_rental = ref_rental.dup
+        saved_amounts = saved_rental.amounts
+
+        new_rental = ref_rental.update(rental)
+        new_amounts = new_rental.amounts
+
+        {
+          id: rental['id'],
+          rental_id: ref_rental.id,
+          actions: Action.get_list(new_amounts, saved_amounts)
+        }
+      end
+    end
 
     # @return [Float] discounted price
     def self.get_discount_amount(price, discount)
@@ -143,35 +144,19 @@ module Drivy
     end
     private_class_method :get_discount_amount
 
-    # @param [Object] rental
-    # @return [Integer] with rental price before applying deductible_reduction_amount
-    def self.total_amount_before_reduction(rental)
-      car = Car.find(rental.car_id)
-      duration_amount = amount_after_decreases(rental, car.price_per_day)
-      distance_amount = distance_amount(rental, car.price_per_km)
-
-      duration_amount + distance_amount
-    end
-    private_class_method :total_amount_before_reduction
-
-    # @param [Object] rental
-    # @param [Integer] price before applying deductible_reduction_amount
-    # @return [Integer] with rental price after applying deductible_reduction_amount
-    def self.total_amount_with_reduction(rental, price_before_reduction)
-      deductible_reduction_amount = Fee.deductible_reduction_amount(rental)
-
-      price_before_reduction + deductible_reduction_amount
-    end
-    private_class_method :total_amount_with_reduction
-
     private
 
     # @param [String] instance variable attribute name
     # @param [Integer, Date, Boolean] instance variable attribute value
     def set_variable(key, value)
+      return unless WHITELIST_RENTAL_ATTR.include?(key)
+
       modified_value =
         if %w[start_date end_date].include?(key)
           Date.parse(value)
+        elsif key == 'car_id'
+          key = 'car'
+          Car.find(value)
         else
           value
         end
