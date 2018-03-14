@@ -66,7 +66,36 @@ module Drivy
     # @param [Integer] price per day
     # @return [Float] price for duration
     def duration_amount
-      self.class.each_day_amounts(number_of_days, car.price_per_day).inject(:+)
+      each_day_amounts.inject(:+)
+    end
+
+    # Different price for each days
+    #
+    # @param [Integer] number of days
+    # @param [Integer] price per day before discounted
+    # @return [Array] with the list of prices
+    def each_day_amounts
+      Array.new(number_of_days) do |day_index|
+        factor =
+          case day_index
+          when 0
+            0.0
+          when 1..3
+            0.1
+          when 4..9
+            0.3
+          else
+            0.5
+          end
+
+        get_discount_amount(factor)
+      end
+    end
+
+    # @return [Float] discounted price
+    def get_discount_amount(discount)
+      price = car.price_per_day
+      (price - (price * discount)).to_i
     end
 
     # @param [Object] rental
@@ -86,29 +115,6 @@ module Drivy
     # @return [Array<Object>] with all rentals
     def self.all
       json_datas['rentals'].map { |rental| new(rental) }
-    end
-
-    # Different price for each days
-    #
-    # @param [Integer] number of days
-    # @param [Integer] price per day before discounted
-    # @return [Array] with the list of prices
-    def self.each_day_amounts(number_of_days, price)
-      Array.new(number_of_days) do |day_index|
-        factor =
-          case day_index
-          when 0
-            0.0
-          when 1..3
-            0.1
-          when 4..9
-            0.3
-          else
-            0.5
-          end
-
-        get_discount_amount(price, factor)
-      end
     end
 
     # @return [Object] with specified rental
@@ -138,11 +144,7 @@ module Drivy
       end
     end
 
-    # @return [Float] discounted price
-    def self.get_discount_amount(price, discount)
-      (price - (price * discount)).to_i
-    end
-    private_class_method :get_discount_amount
+
 
     private
 
