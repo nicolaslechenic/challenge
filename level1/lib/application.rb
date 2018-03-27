@@ -1,11 +1,11 @@
 module Drivy
   class Application
-    def self.json_datas
-      JSON.parse(datas)
+    def self.json_data
+      @data ||= JSON.parse(data)
     end
 
-    def self.datas
-      File.read(DATAS_PATH)
+    def self.data
+      File.read(DATA_PATH)
     end
   end
 end

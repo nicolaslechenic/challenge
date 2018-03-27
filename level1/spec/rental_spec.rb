@@ -1,11 +1,13 @@
 require './lib/rental'
 
 RSpec.describe Drivy::Rental do
-  describe '.prices' do
-    subject { described_class.prices }
+  let(:rental) do
+    described_class.all_from_json.first
+  end
 
-    it 'return all rental prices' do
-      expect(subject).to eq([7000, 15_500, 11_250])
+  describe '#price' do
+    it 'return expected price' do
+      expect(rental.price).to eq(7000)
     end
   end
 end

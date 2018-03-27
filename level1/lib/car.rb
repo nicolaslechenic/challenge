@@ -13,7 +13,7 @@ module Drivy
     #   * :price_per_day [Integer]
     #   * :price_per_km [Integer]
     def self.all
-      json_datas['cars'].map do |car|
+      json_data['cars'].map do |car|
         new(car['id'], car['price_per_day'], car['price_per_km'])
       end
     end
@@ -21,7 +21,7 @@ module Drivy
     # @param [Integer] car id
     # @return [Object] with specified car
     def self.find(id)
-      all.select { |car| car.id == id }[0]
+      all.find { |car| car.id == id }
     end
   end
 end

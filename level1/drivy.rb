@@ -4,15 +4,7 @@ require './lib/application'
 require './lib/car'
 require './lib/rental'
 
-DATAS_PATH = "#{Dir.pwd}/data.json".freeze
+ROOT_PATH = Dir.pwd.freeze
+DATA_PATH = "#{ROOT_PATH}/data.json".freeze
 
-rental_prices = Drivy::Rental.prices.map.with_index do |price, index|
-  {
-    id: index + 1,
-    price: price
-  }
-end
-
-File.open('output.json', 'w') do |f|
-  f.write(JSON.pretty_generate(rentals: rental_prices))
-end
+Drivy::Rental.output_json
