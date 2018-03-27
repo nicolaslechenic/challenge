@@ -7,7 +7,7 @@ RSpec.describe Drivy::Rental do
 
   describe '#price' do
     it 'return expected price' do
-      expect(rental.price).to eq(3000)
+      expect(rental.amount.total).to eq(3000)
     end
   end
 end

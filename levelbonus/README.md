@@ -37,6 +37,5 @@ ruby crazy_cars.rb -d
 
 :warning: *Do not drive too fast !*
 
-
 By the way, I heard about a free drink ?! If it's true, I'd be happy to meet you in March ?!
 

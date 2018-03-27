@@ -29,14 +29,14 @@ module CrazyCars
         system('clear') if image_index.zero?
 
         bits = Array.new(8) do |index|
-          if image_index > 2684
-            Steps.blue_cars(magick_image, index)
-          elsif image_index > 1356
-            Steps.dancing_cars(magick_image, index)
-          else
-            Steps.colored_cars(magick_image, index)
-          end
-        end
+                if image_index > 2684
+                  Steps.blue_cars(magick_image, index)
+                elsif image_index > 1356
+                  Steps.dancing_cars(magick_image, index)
+                else
+                  Steps.colored_cars(magick_image, index)
+                end
+              end
 
         puts '' if image_index == 2685
         print [bits.join].pack('B*')

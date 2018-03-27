@@ -1,5 +1,6 @@
 require 'json'
 require 'date'
+require './lib/amount'
 require './lib/car'
 require './lib/rental'
 

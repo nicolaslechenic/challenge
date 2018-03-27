@@ -4,7 +4,11 @@ module Drivy
       # @return [Array<Object>] with all existing cars
       def all_from_json
         JSON_DATA['cars'].map do |car|
-          new(car['id'], car['price_per_day'], car['price_per_km'])
+          new(
+            id: car['id'],
+            price_per_day: car['price_per_day'],
+            price_per_km: car['price_per_km']
+          )
         end
       end
 
@@ -15,12 +19,15 @@ module Drivy
       end
     end
 
-    attr_accessor :id, :price_per_day, :price_per_km
+    AUTHORIZED = %i[id price_per_day price_per_km].freeze
 
-    def initialize(id, price_per_day, price_per_km)
-      @id = id
-      @price_per_day = price_per_day
-      @price_per_km = price_per_km
+    attr_accessor *AUTHORIZED
+
+    def initialize(car_hash)
+      car_hash.each do |key, value|
+        next unless AUTHORIZED.include?(key)
+        instance_variable_set("@#{key}", value)
+      end
     end
   end
 end

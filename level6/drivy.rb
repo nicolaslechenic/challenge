@@ -1,13 +1,5 @@
-require 'colorize'
-require 'date'
-require 'json'
-require 'pry'
-require 'yaml'
-require './lib/application'
-require './lib/action'
-require './lib/fee'
-require './lib/car'
-require './lib/rental'
+%w[colorize date json pry yaml].each { |gem_name| require gem_name }
+%w[application action fee car rental].each { |lib_name| require "./lib/#{lib_name}" }
 
 DATAS_PATH = "#{Dir.pwd}/data.json".freeze
 ERRORS = YAML.load_file('locales.yml')['errors']
