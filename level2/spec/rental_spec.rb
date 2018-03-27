@@ -5,9 +5,7 @@ RSpec.describe Drivy::Rental do
     described_class.all_from_json.first
   end
 
-  describe '#price' do
-    it 'return expected price' do
-      expect(rental.amount.total).to eq(3000)
-    end
+  it 'return rental' do
+    expect(rental.id).to eq(1)
   end
 end

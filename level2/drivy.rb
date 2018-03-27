@@ -1,7 +1,7 @@
 require 'json'
 require 'date'
-require './lib/amount'
 require './lib/car'
+require './lib/price'
 require './lib/rental'
 
 ROOT_PATH = Dir.pwd.freeze

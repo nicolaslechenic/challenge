@@ -4,7 +4,7 @@ module Drivy
       # Generate json file
       def output_json
         File.open("#{ROOT_PATH}/output.json", 'w') do |f|
-          f.write(JSON.pretty_generate(rentals: json_prices))
+          f.write(JSON.pretty_generate(rentals: json_list))
         end
       end
 
@@ -27,11 +27,11 @@ module Drivy
 
       private
 
-      def json_prices
+      def json_list
         all_from_json.map do |rental|
           {
             id: rental.id,
-            price: rental.amount.total
+            price: Price.total_for_rental(rental)
           }
         end
       end
@@ -49,16 +49,8 @@ module Drivy
     end
 
     # @return [Integer] number of days included in the range
-    def number_of_days
+    def duration
       (end_date - start_date).to_i + 1
-    end
-
-    def amount
-      Amount.new(
-        distance: distance,
-        duration: number_of_days,
-        car: car
-      )
     end
   end
 end
