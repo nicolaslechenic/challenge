@@ -1,9 +1,9 @@
 module Drivy
-  class Car < Application
+  class Car
     class << self
       # @return [Array<Object>] with all existing cars
       def all_from_json
-        json_data['cars'].map do |car|
+        JSON_DATA['cars'].map do |car|
           new(car['id'], car['price_per_day'], car['price_per_km'])
         end
       end

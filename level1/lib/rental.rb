@@ -1,5 +1,5 @@
 module Drivy
-  class Rental < Application
+  class Rental
     class << self
       # Generate json file
       def output_json
@@ -10,7 +10,7 @@ module Drivy
 
       # @return [Array<Object>] with all rentals
       def all_from_json
-        json_data['rentals'].map do |rental|
+        JSON_DATA['rentals'].map do |rental|
           car         = Car.find(rental['car_id'])
           start_date  = Date.parse(rental['start_date'])
           end_date    = Date.parse(rental['end_date'])
