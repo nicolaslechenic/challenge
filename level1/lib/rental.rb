@@ -21,14 +21,14 @@ module Drivy
 
       private
 
-        def json_prices
-          all_from_json.map do |rental|
-            {
-              id: rental.id,
-              price: rental.price
-            }
-          end
+      def json_prices
+        all_from_json.map do |rental|
+          {
+            id: rental.id,
+            price: rental.price
+          }
         end
+      end
     end
 
     attr_accessor :id, :car, :start_date, :end_date, :distance
@@ -53,12 +53,12 @@ module Drivy
 
     private
 
-      def duration_price
-        count_days * car.price_per_day
-      end
+    def duration_price
+      count_days * car.price_per_day
+    end
 
-      def distance_price
-        distance * car.price_per_km
-      end
+    def distance_price
+      distance * car.price_per_km
+    end
   end
 end
