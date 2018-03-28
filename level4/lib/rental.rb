@@ -1,110 +1,73 @@
+require 'pry'
 module Drivy
-  class Rental < Application
-    attr_accessor :id, :car_id, :start_date, :end_date, :distance, :deductible_reduction
-    # List of attributes
-    #
-    #   * :id [Integer]
-    #   * :car_id [Integer]
-    #   * :start_date [String] with following format "yyyy-mm-dd"
-    #   * :end_date [String] with following format "yyyy-mm-dd"
-    #   * :distance [Integer]
-    #   * :deductible_reduction [Boolean]
+  class Rental
+    class << self
+      # Generate json file
+      def output_json
+        File.open("#{ROOT_PATH}/output.json", 'w') do |f|
+          f.write(JSON.pretty_generate(rentals: json_list))
+        end
+      end
+
+      # @return [Array<Object>] with all rentals
+      def all_from_json
+        JSON_DATA['rentals'].map do |rental|
+          car         = Car.find(rental['car_id'])
+          start_date  = Date.parse(rental['start_date'])
+          end_date    = Date.parse(rental['end_date'])
+
+          new(
+            id: rental['id'],
+            car: car,
+            start_date: start_date,
+            end_date: end_date,
+            distance: rental['distance'],
+            deductible_reduction: rental['deductible_reduction']
+          )
+        end
+      end
+
+      private
+
+      def json_list
+        all_from_json.map do |rental|
+          price = Price.new_from_rental(rental)
+          fee   = Fee.new(price.total, rental.duration)
+
+          {
+            id: rental.id,
+            price: price.total,
+            options: {
+              deductible_reduction: rental.deductible_amount
+            },
+            commission: {
+              insurance_fee: fee.insurance,
+              assistance_fee: fee.assistance,
+              drivy_fee: fee.drivy
+            }
+          }
+        end
+      end
+    end
+
+    AUTHORIZED = %i[id car start_date end_date distance deductible_reduction].freeze
+
+    attr_accessor *AUTHORIZED
+
     def initialize(rental_hash)
       rental_hash.each do |key, value|
+        next unless AUTHORIZED.include?(key)
         instance_variable_set("@#{key}", value)
       end
     end
 
     # @return [Integer] number of days included in the range
-    def number_of_days
-      start_date  = Date.parse(self.start_date)
-      end_date    = Date.parse(self.end_date)
-
+    def duration
       (end_date - start_date).to_i + 1
     end
 
-    # @return [Array<Object>] with all rentals
-    def self.all
-      json_datas['rentals'].map do |rental|
-        new(rental)
-      end
+    def deductible_amount
+      deductible_reduction ? duration * 400 : 0
     end
-
-    # @return [Array<Hash>] with the desired output values
-    def self.outputs
-      all.map.with_index do |rental, index|
-        total_price = price(rental)
-        total_fees = total_price * 0.3
-
-        {
-          id: index + 1,
-          price: total_price.to_i,
-          options: Fee.options(rental),
-          commission: Fee.commission(rental, total_fees)
-        }
-      end
-    end
-
-    # @param [Object] rental
-    # @return [Integer] with rental price
-    def self.price(rental)
-      car = Car.find(rental.car_id)
-      duration_price = price_after_decreases(rental, car.price_per_day)
-      distance_price = distance_price(rental, car.price_per_km)
-
-      (duration_price + distance_price).to_i
-    end
-
-    # Price for specified distance
-    def self.distance_price(rental, price_per_km)
-      rental.distance * price_per_km
-    end
-    private_class_method :distance_price
-
-    # Different price for each days
-    #
-    # @param [Integer] number of days
-    # @param [Integer] price per day before discounted
-    # @return [Array] with the list of prices
-    def self.each_day_prices(number_of_days, price)
-      Array.new(number_of_days) do |day_index|
-        factor =
-          case day_index
-          when 0
-            0.0
-          when 1..3
-            0.1
-          when 4..9
-            0.3
-          else
-            0.5
-          end
-
-        get_discount_price(price, factor)
-      end
-    end
-    private_class_method :each_day_prices
-
-    # @return [Float] discounted price
-    def self.get_discount_price(price, discount)
-      (price - (price * discount))
-    end
-    private_class_method :get_discount_price
-
-    # Return price depends on number of days
-    #
-    # - price per day decreases by 10% after 1 day
-    # - price per day decreases by 30% after 4 days
-    # - price per day decreases by 50% after 10 days
-    #
-    # @param [Object] rental informations
-    # @param [Integer] price per day
-    # @return [Float] price for duration
-    def self.price_after_decreases(rental, price_per_day)
-      number_of_days = rental.number_of_days
-
-      each_day_prices(number_of_days, price_per_day).inject(:+)
-    end
-    private_class_method :price_after_decreases
   end
 end

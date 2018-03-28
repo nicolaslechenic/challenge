@@ -1,12 +1,12 @@
 require 'json'
 require 'date'
-require './lib/application'
 require './lib/car'
-require './lib/fee'
 require './lib/rental'
+require './lib/price'
+require './lib/fee'
 
-DATAS_PATH = "#{Dir.pwd}/data.json".freeze
+ROOT_PATH = Dir.pwd.freeze
+DATA_PATH = "#{ROOT_PATH}/data.json".freeze
+JSON_DATA = JSON.parse(File.read(DATA_PATH)).freeze
 
-File.open('output.json', 'w') do |f|
-  f.write(JSON.pretty_generate(rentals: Drivy::Rental.outputs))
-end
+Drivy::Rental.output_json
