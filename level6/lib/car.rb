@@ -14,8 +14,11 @@ module Drivy
 
       # @param [Integer] car id
       # @return [Object] with specified car
-      def find(id)
-        all_from_json.find { |car| car.id == id }
+      def find_from_json(car_id)
+        car_found = all_from_json.find { |car| car.id == car_id }
+        raise IndexError, format(ERRORS['car']['invalid_id'], car_id: car_id) if car_found.nil?
+
+        car_found
       end
     end
 

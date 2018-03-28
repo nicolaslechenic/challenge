@@ -14,7 +14,7 @@ module Drivy
     def self.get_list(updated_rental, original_rental)
       amounts = [updated_rental, original_rental].map do |rental|
         price = Price.new_from_rental(rental)
-        fee = Fee.new(price.total, rental.duration)
+        fee   = Fee.new(price.total, rental.duration)
 
         driver_amount = -(price.total + rental.deductible_amount)
         owner_amount  = price.total - fee.total

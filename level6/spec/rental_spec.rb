@@ -16,24 +16,24 @@ RSpec.describe Drivy::Rental do
     it 'return RangeError exception' do
       rental.end_date = rental.start_date - 1
 
-      expect { rental.number_of_days }.to raise_error(RangeError)
+      expect { rental.duration }.to raise_error(RangeError)
     end
   end
 
   context 'invalid id' do
-    subject { described_class.find(4) }
+    subject { described_class.find_from_json(4) }
 
     it 'return error when car id is invalid' do
       expect { subject }.to raise_error(IndexError)
     end
   end
 
-  describe '.output_modifications' do
-    subject { described_class.output_modifications }
-
+  describe '.output_json' do
     it 'generate expected json file' do
+      described_class.output_json
+
       expected_file = File.read('output.expected.json')
-      generated_file = JSON.pretty_generate(rental_modifications: subject)
+      generated_file = File.read('output.json')
 
       expect(generated_file).to eq(expected_file)
     end

@@ -31,7 +31,6 @@ module Drivy
         rental_found
       end
 
-
       private
 
       def json_list
@@ -105,7 +104,7 @@ module Drivy
 
     def car_finder(value)
       if value.is_a?(Integer)
-        Car.find(value)
+        Car.find_from_json(value)
       elsif value.instance_of?(Car)
         value
       else

@@ -4,5 +4,3 @@ errors:
     date_range: Invalid end date. End date is smaller than start date
   car:
     invalid_id: "There is no car with the id: %<car_id>i"
-  action:
-    zero_value: Rental action without amount value
