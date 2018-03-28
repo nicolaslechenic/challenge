@@ -6,7 +6,7 @@ RSpec.describe Drivy::Price do
   end
 
   describe '#total' do
-    it 'return expected total price for specified rental' do
+    it 'return the expected total value' do
       price = described_class.new_from_rental(rental)
 
       expect(price.total).to eq(3000)
