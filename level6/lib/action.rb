@@ -1,37 +1,38 @@
 module Drivy
-  class Action < Application
+  class Action
     # @return [Hash] formatted json actions
     def self.to_json(who, amount)
-      raise ArgumentError, ERRORS['action']['zero_value'] if amount.zero?
-      operation_type = amount > 0 ? 'credit' : 'debit'
+      operation_type = amount >= 0 ? 'credit' : 'debit'
 
       {
         who: who,
         type: operation_type,
         amount: amount.abs
       }
-    rescue ArgumentError => exception
-      print "#{exception.class.name}: #{exception.message}"
     end
 
-    # @return [Array<Hash>] formatted json actions
-    def self.get_list(new_amounts, previous_amounts)
-      new_commissions = new_amounts[:commissions]
-      previous_commissions = previous_amounts[:commissions]
+    def self.get_list(updated_rental, original_rental)
+      amounts = [updated_rental, original_rental].map do |rental|
+        price = Price.new_from_rental(rental)
+        fee = Fee.new(price.total, rental.duration)
 
-      driver_amount = -(new_amounts[:driver_owe] - previous_amounts[:driver_owe])
-      owner_amount  = new_amounts[:owner_part] - previous_amounts[:owner_part]
-      insurance_amount = new_commissions[:insurance_fee] - previous_commissions[:insurance_fee]
-      assistance_amount = new_commissions[:assistance_fee] - previous_commissions[:assistance_fee]
-      drivy_amount = new_commissions[:drivy_fee_with_reduction] - previous_commissions[:drivy_fee_with_reduction]
+        driver_amount = -(price.total + rental.deductible_amount)
+        owner_amount  = price.total - fee.total
+        drivy_amount  = fee.drivy + rental.deductible_amount
 
-      [
-        to_json('driver', driver_amount),
-        to_json('owner', owner_amount),
-        to_json('insurance', insurance_amount),
-        to_json('assistance', assistance_amount),
-        to_json('drivy', drivy_amount)
-      ]
+        {
+          driver: driver_amount,
+          owner: owner_amount,
+          insurance: fee.insurance,
+          assistance: fee.assistance,
+          drivy: drivy_amount
+        }
+      end
+
+      amounts[0].keys.map do |key|
+        to_json(key.to_s, amounts[0][key] - amounts[1][key])
+      end
     end
   end
 end
+
